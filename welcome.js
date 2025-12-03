@@ -106,55 +106,6 @@ window.welcomeNext = function () {
   }
 };
 
-window.activationSubmit = function () {
-  const keyInput = document.getElementById('activation-key-input');
-  const errorMsgId = 'activation-error-msg';
-
-  let errorMsg = document.getElementById(errorMsgId);
-  if (!errorMsg) {
-    errorMsg = document.createElement('div');
-    errorMsg.id = errorMsgId;
-    errorMsg.style.color = 'red';
-    errorMsg.style.marginTop = '10px';
-    errorMsg.textContent = "Введите правильный ключ!"
-    keyInput.parentNode.appendChild(errorMsg);
-  }
-
-  const enteredKey = keyInput?.value.trim();
-  if (!enteredKey) {
-    errorMsg.textContent = 'Введите ключ!';
-    return;
-  }
-
-  let matched = false;
-  let matchedData = null;
-
-  for (let i = 0; i < localStorage.length; i++) {
-    const keyName = localStorage.key(i);
-    const rawValue = localStorage.getItem(keyName);
-
-    try {
-      const parsed = JSON.parse(rawValue);
-
-      if (parsed && typeof parsed === 'object') {
-        const codeMatch = parsed.code && parsed.code === enteredKey;
-        const createdMatch = parsed.createdAt && String(parsed.createdAt) === enteredKey;
-
-        if (codeMatch || createdMatch) {
-          matched = true;
-          matchedData = parsed;
-          break;
-        }
-      }
-
-    } catch (e) {
-    }
-  }
-
-  if (!matched) {
-    errorMsg.textContent = 'Ключ неверный!';
-    return;
-  }
 
   const userData = {
     name: userName,
@@ -228,4 +179,5 @@ if (existingUserData && existingUserData.name) {
   showWelcomeScreen();
   showStep(1);
 }
+
 
